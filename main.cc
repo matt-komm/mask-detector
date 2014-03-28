@@ -5,7 +5,12 @@
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
 
-int main()
+#ifdef G4VIS_USE
+#include "G4UIExecutive.hh"
+#include "G4VisExecutive.hh"
+#endif
+
+int main(int argc,char** argv)
 {
   // Construct the default run manager
   //
@@ -28,12 +33,25 @@ int main()
   //
   runManager->Initialize();
 
+  
+  
+  #ifdef G4VIS_USE
+  // Initialize visualization
+  G4VisManager* visManager = new G4VisExecutive;
+  visManager->Initialize();
+  
   // Get the pointer to the UI manager and set verbosities
   //
-  G4UImanager* UI = G4UImanager::GetUIpointer();
-  UI->ApplyCommand("/run/verbose 1");
-  UI->ApplyCommand("/event/verbose 1");
-  UI->ApplyCommand("/tracking/verbose 1");
+  G4UImanager* UImanager = G4UImanager::GetUIpointer();
+  UImanager->ApplyCommand("/run/verbose 1");
+  UImanager->ApplyCommand("/event/verbose 1");
+  UImanager->ApplyCommand("/tracking/verbose 1");
+  
+  G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+  UImanager->ApplyCommand("/control/execute init_vis.mac");
+  ui->SessionStart();
+  //delete visManager;
+   #endif
 
   // Start a run
   //
