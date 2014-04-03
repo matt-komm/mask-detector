@@ -1,0 +1,22 @@
+Plannig for the Tracking:
+
+1- Define Detector Geometry:
+
+1.1 Cilindrical shape  with more layer
+1.2 Define un-sensitive area
+1.3 The tracker is a Silicon Tracker
+1.4 Constant Magnetic fild
+
+
+2- Hits and Hit collections
+
+2.1 Position and Energy deposit
+2.2 Digitalization
+
+3- Tracking Algo.
+
+3.1 Trajectory Seeds
+3.2 Track Building (pattern recognition, road search)
+3.3 Final Fit
+
+
