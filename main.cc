@@ -2,6 +2,8 @@
 #include "G4UImanager.hh"
 
 #include "DetectorConstruction.hh"
+#include "B2aDetectorConstruction.hh"
+
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
 
@@ -18,7 +20,8 @@ int main(int argc,char** argv)
 
   // set mandatory initialization classes
   //
-  G4VUserDetectorConstruction* detector = new DetectorConstruction();
+  //G4VUserDetectorConstruction* detector = new DetectorConstruction();
+  G4VUserDetectorConstruction* detector = new B2aDetectorConstruction();
   runManager->SetUserInitialization(detector);
   //
   G4VUserPhysicsList* physics = new PhysicsList();
