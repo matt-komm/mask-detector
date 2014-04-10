@@ -52,6 +52,8 @@
 
 #include "G4SystemOfUnits.hh"
 
+#include <cmath>
+
 //#include "G4ios.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -117,6 +119,7 @@ void B2aDetectorConstruction::DefineMaterials()
 
 G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 {
+
   G4Material* air  = G4Material::GetMaterial("G4_AIR");
 
   // Sizes of the principal geometrical components (solids)
@@ -171,7 +174,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
   G4ThreeVector positionTarget = G4ThreeVector(0,0,-(targetLength+trackerSize));
 
   G4Tubs* targetS
-    = new G4Tubs("target",0.,targetRadius,targetLength,0.*deg,360.*deg);
+    = new G4Tubs("target",0.,targetRadius*10,targetLength,0.*deg,360.*deg);
   fLogicTarget
     = new G4LogicalVolume(targetS, fTargetMaterial,"Target",0,0,0);
   new G4PVPlacement(0,               // no rotation
@@ -205,11 +208,13 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
   // Visualization attributes
 
-  G4VisAttributes* boxVisAtt= new G4VisAttributes(G4Colour(1.0,1.0,1.0));
-  G4VisAttributes* chamberVisAtt = new G4VisAttributes(G4Colour(1.0,1.0,0.0));
+  G4VisAttributes* boxVisAtt= new G4VisAttributes(G4Colour(0.0,1.0,1.0));
+  G4VisAttributes* targetVisAtt= new G4VisAttributes(G4Colour(1.0,0.2,0.2));
+  G4VisAttributes* chamber1VisAtt = new G4VisAttributes(G4Colour(1.0,1.0,0.0));
+  G4VisAttributes* chamber2VisAtt = new G4VisAttributes(G4Colour(1.0,0.0,1.0));
 
   worldLV      ->SetVisAttributes(boxVisAtt);
-  fLogicTarget ->SetVisAttributes(boxVisAtt);
+  fLogicTarget ->SetVisAttributes(targetVisAtt);
   trackerLV    ->SetVisAttributes(boxVisAtt);
 
   // Sensitive detectors
@@ -244,28 +249,38 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
   }
 
   for (G4int copyNo=0; copyNo<fNbOfChambers; copyNo++) {
-
       G4double Zposition = firstPosition + copyNo * chamberSpacing;
       G4double rmax =  rmaxFirst + copyNo * rmaxIncr;
+      for (int angle=0; angle<360; angle+=30)
+      {
+          G4Tubs* chamberS
+            = new G4Tubs("chamber", 20*cm, rmax, halfWidth*0.05, angle*deg, 40*deg);
 
-      G4Tubs* chamberS
-        = new G4Tubs("chamber", 0, rmax, halfWidth, 0.*deg, 360.*deg);
-
-      fLogicChamber[copyNo] =
-               new G4LogicalVolume(chamberS,fChamberMaterial,"Chamber",0,0,0);
-
-      fLogicChamber[copyNo]->SetSensitiveDetector( aTrackerSD );
-      fLogicChamber[copyNo]->SetVisAttributes(chamberVisAtt);
-
-      new G4PVPlacement(0,                            // no rotation
-                        G4ThreeVector(0,0,Zposition), // at (x,y,z)
-                        fLogicChamber[copyNo],        // its logical volume
-                        "Chamber",                    // its name
-                        trackerLV,                    // its mother  volume
-                        false,                        // no boolean operations
-                        copyNo,                       // copy number
-                        fCheckOverlaps);              // checking overlaps 
-
+          /*fLogicChamber[copyNo] =
+                   new G4LogicalVolume(chamberS,fChamberMaterial,"Chamber",0,0,0);
+        */
+          G4LogicalVolume* trackerLogicVolume = new G4LogicalVolume(chamberS,fChamberMaterial,"Chamber",0,0,0);
+          trackingLogicChambers.push_back(trackerLogicVolume);
+          trackerLogicVolume->SetSensitiveDetector( aTrackerSD );
+          if (angle%60==0)
+          {
+            trackerLogicVolume->SetVisAttributes(chamber1VisAtt);
+          }
+          else
+          {
+            trackerLogicVolume->SetVisAttributes(chamber2VisAtt);
+          }
+          G4RotationMatrix* rotation = new G4RotationMatrix();
+          rotation->set(G4ThreeVector(std::cos(angle*deg/rad),std::sin((angle+20)*deg/rad),0),10.0*deg);
+          new G4PVPlacement(rotation,                            // no rotation
+                            G4ThreeVector(0,0,Zposition), // at (x,y,z)
+                            trackerLogicVolume,        // its logical volume
+                            "Chamber",                    // its name
+                            trackerLV,                    // its mother  volume
+                            false,                        // no boolean operations
+                            copyNo,                       // copy number
+                            fCheckOverlaps);              // checking overlaps 
+    }
   }
 
   // Example of User Limits

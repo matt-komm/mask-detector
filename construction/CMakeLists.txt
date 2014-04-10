@@ -5,4 +5,7 @@ add_library(detector
     B2MagneticField.cc
     B2TrackerHit.cc
     B2TrackerSD.cc
+    MaskDetector.cc
+    SimHit.cc
+    SensitiveDetector.cc
 )

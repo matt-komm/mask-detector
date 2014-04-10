@@ -34,6 +34,8 @@
 #include "globals.hh"
 #include "G4VUserDetectorConstruction.hh"
 
+#include <vector>
+
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
@@ -73,7 +75,7 @@ class B2aDetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume*   fLogicTarget;     // pointer to the logical Target
     G4LogicalVolume**  fLogicChamber;    // pointer to the logical Chamber
-
+    std::vector<G4LogicalVolume*>  trackingLogicChambers;    // pointer to the logical Chamber
     G4Material*        fTargetMaterial;  // pointer to the target  material
     G4Material*        fChamberMaterial; // pointer to the chamber material
 

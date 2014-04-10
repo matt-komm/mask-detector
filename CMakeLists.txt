@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 2.6)
 project(detector)
 
-MACRO(COPY_FILE_IF_CHANGED in_file out_file target)  
+add_custom_target(copy)
+
+MACRO(COPY_FILE_IF_CHANGED in_file out_file)  
         ADD_CUSTOM_COMMAND (
-            TARGET     ${target}
+            TARGET     copy
             POST_BUILD
             COMMAND    ${CMAKE_COMMAND}
             ARGS       -E copy_if_different ${in_file} ${out_file}
@@ -36,13 +38,14 @@ add_subdirectory(action)
 add_executable(main
     main.cc
 )
-COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/gui.mac ${CMAKE_CURRENT_BINARY_DIR}/gui.mac main)
-COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/init_vis.mac ${CMAKE_CURRENT_BINARY_DIR}/init_vis.mac main)
+COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/gui.mac ${CMAKE_CURRENT_BINARY_DIR}/gui.mac)
+COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/init_vis.mac ${CMAKE_CURRENT_BINARY_DIR}/init_vis.mac)
 target_link_libraries(main 
     detector 
     physics 
     action 
     ${Geant4_LIBRARIES}
 )
+add_dependencies(main copy)
 
 

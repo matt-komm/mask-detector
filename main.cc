@@ -3,9 +3,14 @@
 
 #include "DetectorConstruction.hh"
 #include "B2aDetectorConstruction.hh"
+#include "B2MagneticField.hh"
+#include "MaskDetector.hh"
 
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
+
+#include "FTFP_BERT.hh"
+#include "QGSP_BERT.hh"
 
 #ifdef G4VIS_USE
 #include "G4UIExecutive.hh"
@@ -20,12 +25,21 @@ int main(int argc,char** argv)
 
   // set mandatory initialization classes
   //
+  
   //G4VUserDetectorConstruction* detector = new DetectorConstruction();
-  G4VUserDetectorConstruction* detector = new B2aDetectorConstruction();
+  //G4VUserDetectorConstruction* detector = new B2aDetectorConstruction();
+  MaskDetector* detector = new MaskDetector();
   runManager->SetUserInitialization(detector);
   //
-  G4VUserPhysicsList* physics = new PhysicsList();
-  runManager->SetUserInitialization(physics);
+  B2MagneticField* magField = new B2MagneticField();
+  //magField->SetMagFieldValue(8.0);
+  magField->SetMagFieldValue(G4ThreeVector(0.0,0.0,0.5));
+  G4VModularPhysicsList* physicsList = new QGSP_BERT;
+  //physicsList->RegisterPhysics(new G4StepLimiterBuilder());
+  runManager->SetUserInitialization(physicsList);
+  
+  //G4VUserPhysicsList* physics = new PhysicsList();
+  //runManager->SetUserInitialization(physics);
 
   // set mandatory user action class
   //
@@ -41,7 +55,7 @@ int main(int argc,char** argv)
   #ifdef G4VIS_USE
   // Initialize visualization
   G4VisManager* visManager = new G4VisExecutive;
-  visManager->Initialize();
+ visManager->Initialize();
   
   // Get the pointer to the UI manager and set verbosities
   //
@@ -51,15 +65,18 @@ int main(int argc,char** argv)
   UImanager->ApplyCommand("/tracking/verbose 1");
   
   G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+  
   UImanager->ApplyCommand("/control/execute init_vis.mac");
+  G4int numberOfEvent = 1;
+  runManager->BeamOn(numberOfEvent);
+  std::cout<<"simulate..."<<std::endl;
   ui->SessionStart();
+ 
   //delete visManager;
    #endif
-
   // Start a run
   //
-  G4int numberOfEvent = 3;
-  runManager->BeamOn(numberOfEvent);
+  
 
   // Job termination
   //

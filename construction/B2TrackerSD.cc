@@ -35,6 +35,8 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
+#include <iostream>
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B2TrackerSD::B2TrackerSD(const G4String& name,
@@ -95,7 +97,8 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 void B2TrackerSD::EndOfEvent(G4HCofThisEvent*)
 {
-  if ( verboseLevel>1 ) { 
+    std::cout<<verboseLevel<<std::endl;
+  if ( verboseLevel>=0 ) { 
      G4int nofHits = fHitsCollection->entries();
      G4cout << "\n-------->Hits Collection: in this event they are " << nofHits 
             << " hits in the tracker chambers: " << G4endl;
