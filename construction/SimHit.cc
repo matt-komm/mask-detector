@@ -47,10 +47,8 @@ G4int SimHit::operator==(const SimHit& simHit) const
 void SimHit::Draw()
 {
     G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
-    std::cout<<"vismanager: "<<pVVisManager<<std::endl;
     if(pVVisManager)
-    {
-        
+    { 
         G4Circle circle(_pos);
         circle.SetScreenSize(6.);
         circle.SetFillStyle(G4Circle::filled);

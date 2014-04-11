@@ -32,15 +32,19 @@ void SensitiveDetector::Initialize(G4HCofThisEvent* hce)
 
 G4bool SensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 {  
-    // check energy deposit
-    G4double edep = aStep->GetTotalEnergyDeposit();
-    if (edep==0.) 
+    G4double energyDeposit = aStep->GetTotalEnergyDeposit();
+    if (energyDeposit==0.) 
     {
         return false;
     }
     SimHit* newHit = new SimHit();
 
     newHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
+    newHit->SetEnergyDeposit(energyDeposit);
+    //std::cout<<"hit: "<<_hitsCollection->GetSize()<<std::endl;
+    //std::cout<<"   --> trackE="<<(aStep->GetTrack()->GetKineticEnergy ()-150*GeV)/MeV<<" MeV"<<std::endl;
+    //std::cout<<"   --> Edep="<<energyDeposit/MeV<<" MeV"<<std::endl;
+    newHit->SetTrackEnergy(aStep->GetTrack()->GetKineticEnergy ());
     //newHit->SetDetId(?)
     //aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber());
     newHit->SetPos(aStep->GetPostStepPoint()->GetPosition());

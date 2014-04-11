@@ -17,6 +17,8 @@ class SimHit:
 {
     private:
         G4int _trackId;
+        G4double _energyDeposit;
+        G4double _trackEnergy;
         DetId _detId;
         G4ThreeVector _pos;
 
@@ -39,6 +41,16 @@ class SimHit:
             return _trackId; 
         }
         
+        inline G4double GetEnergyDeposit() const
+        {
+            return _energyDeposit;
+        }
+        
+        inline G4double GetTrackEnergy() const
+        {
+            return _trackEnergy;
+        }
+        
         inline const DetId& GetDetId() const
         { 
             return _detId; 
@@ -53,10 +65,22 @@ class SimHit:
         {
             _trackId = trackId; 
         }
+        
+        inline void SetEnergyDeposit(G4double energyDeposit)
+        {
+            _energyDeposit=energyDeposit;
+        }
+        
+        inline void SetTrackEnergy(G4double trackEnergy)
+        {
+            _trackEnergy=trackEnergy;
+        }
+        
         inline void SetDetId(DetId detId)
         { 
             _detId = detId; 
         }
+        
         inline void SetPos(G4ThreeVector pos)
         { 
             _pos = pos; 
