@@ -1,4 +1,5 @@
 include_directories(${PROJECT_SOURCE_DIR}/construction)
+include_directories(${PROJECT_SOURCE_DIR}/objects)
 add_library(detector 
     DetectorConstruction.cc
     B2DetectorConstruction.cc
@@ -6,6 +7,6 @@ add_library(detector
     B2TrackerHit.cc
     B2TrackerSD.cc
     MaskDetector.cc
-    SimHit.cc
     SensitiveDetector.cc
 )
+target_link_libraries(detector objects)

@@ -17,7 +17,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     std::cout<<"particle: "<<particleDefinition<<std::endl;
     particleGun->SetParticleDefinition(particleDefinition);
     particleGun->SetParticleEnergy(150.0*GeV);
-    particleGun->SetParticlePosition(G4ThreeVector(0.0, 0.0, 0.0*m));
+    particleGun->SetParticlePosition(G4ThreeVector(0.0, 0.0, 0.0));
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -27,6 +27,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
+    
     G4ThreeVector v(40.00*GeV,60.00*GeV,20.0*GeV);
     particleGun->SetParticleMomentumDirection(v);
     particleGun->GeneratePrimaryVertex(anEvent);

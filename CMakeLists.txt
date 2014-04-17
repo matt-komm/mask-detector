@@ -28,11 +28,12 @@ include_directories(${Geant4_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/construction)
 include_directories(${PROJECT_SOURCE_DIR}/action)
 include_directories(${PROJECT_SOURCE_DIR}/physics)
+include_directories(${PROJECT_SOURCE_DIR}/objects)
 
 add_subdirectory(construction)
 add_subdirectory(physics)
 add_subdirectory(action)
-
+add_subdirectory(objects)
 
 
 add_executable(main
