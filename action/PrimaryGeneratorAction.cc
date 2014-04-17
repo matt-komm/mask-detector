@@ -9,28 +9,34 @@
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 {
-    G4int n_particle = 1;
-    particleGun = new G4ParticleGun(n_particle);
+}
 
-    G4ParticleDefinition* particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle(211);
-    G4String particleName;
-    std::cout<<"particle: "<<particleDefinition<<std::endl;
+void PrimaryGeneratorAction::addParticle(G4int pdgid, G4ThreeVector momentum, G4ThreeVector vertex)
+{
+    G4ParticleGun* particleGun = new G4ParticleGun(1);
+    G4ParticleDefinition* particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle(pdgid);
     particleGun->SetParticleDefinition(particleDefinition);
-    particleGun->SetParticleEnergy(150.0*GeV);
-    particleGun->SetParticlePosition(G4ThreeVector(0.0, 0.0, 0.0));
+    particleGun->SetParticleEnergy(momentum.mag());
+    particleGun->SetParticlePosition(vertex);
+    particleGun->SetParticleMomentumDirection(momentum);
+    _particleGuns.push_back(particleGun);
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-    delete particleGun;
+    for (G4int i = 0; i<_particleGuns.size();++i)
+    {
+        delete _particleGuns[i];
+    }
+    _particleGuns.clear();
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-    
-    G4ThreeVector v(40.00*GeV,60.00*GeV,20.0*GeV);
-    particleGun->SetParticleMomentumDirection(v);
-    particleGun->GeneratePrimaryVertex(anEvent);
+    for (G4int i = 0; i<_particleGuns.size();++i)
+    {
+        _particleGuns[i]->GeneratePrimaryVertex(anEvent);
+    }
     
 }
 

@@ -27,7 +27,7 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(detector);
   //
   B2MagneticField* magField = new B2MagneticField();
-  //magField->SetMagFieldValue(8.0);
+  magField->SetMagFieldValue(0.1);
   magField->SetMagFieldValue(G4ThreeVector(0.0,0.0,0.5));
   G4VModularPhysicsList* physicsList = new QGSP_BERT;
   //physicsList->RegisterPhysics(new G4StepLimiterBuilder());
@@ -41,7 +41,8 @@ int main(int argc,char** argv)
   //G4VUserPhysicsList* physics = new PhysicsList();
   //runManager->SetUserInitialization(physics);
 
-  G4VUserPrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction();
+  PrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction();
+  gen_action->addParticle(2212,G4ThreeVector(150*GeV,120*GeV,10*GeV));
   runManager->SetUserAction(gen_action);
 
   runManager->Initialize();
