@@ -12,6 +12,9 @@
 
 #include "PrimaryGeneratorAction.hh"
 
+#include "CLHEP/Random/RandFlat.h"
+#include "CLHEP/Random/MTwistEngine.h"
+
 #include "FTFP_BERT.hh"
 #include "QGSP_BERT.hh"
 
@@ -27,7 +30,6 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(detector);
   //
   B2MagneticField* magField = new B2MagneticField();
-  magField->SetMagFieldValue(0.1);
   magField->SetMagFieldValue(G4ThreeVector(0.0,0.0,0.5));
   G4VModularPhysicsList* physicsList = new QGSP_BERT;
   //physicsList->RegisterPhysics(new G4StepLimiterBuilder());
@@ -40,9 +42,24 @@ int main(int argc,char** argv)
   runManager->SetUserAction(eventAction);
   //G4VUserPhysicsList* physics = new PhysicsList();
   //runManager->SetUserInitialization(physics);
+  
+  CLHEP::RandFlat random(new CLHEP::MTwistEngine(123));
 
   PrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction();
-  gen_action->addParticle(2212,G4ThreeVector(150*GeV,120*GeV,10*GeV));
+  G4int ids[8] = {2122,-2122,211,-211,11,-11,13,-13};
+  
+  for (int i = 0; i<10; ++i)
+  {
+    G4double energy = random.fire(100.0,800.0);
+    G4double eta = random.fire(-2.0,2.0);
+    G4double phi = random.fire(0.0,3.14156*2);
+    G4int idindex = G4int(random.fire(0,7.9));
+    G4ThreeVector momentum(0.0,0.0,0.0);
+    
+    momentum.setREtaPhi(energy*GeV,eta,phi);
+    
+    gen_action->addParticle(ids[idindex],momentum);
+  }
   runManager->SetUserAction(gen_action);
 
   runManager->Initialize();
