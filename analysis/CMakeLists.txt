@@ -1,0 +1,8 @@
+include_directories(${PROJECT_SOURCE_DIR}/analysis)
+include_directories(${PROJECT_SOURCE_DIR}/objects)
+add_library(analysis 
+    AnalysisChain.cc
+    Module.cc
+    ObjectStore.cc
+)
+target_link_libraries(analysis objects)
