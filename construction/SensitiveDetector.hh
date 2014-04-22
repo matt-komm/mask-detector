@@ -17,15 +17,11 @@ class SensitiveDetector:
 {
     private:
         SimHitCollection* _hitsCollection;
-        DetId _detId;
+        DetId* _detId;
     public:
-        SensitiveDetector(const G4String& name, const G4String& hitsCollectionName);
+        SensitiveDetector(DetId* detId);
         virtual ~SensitiveDetector();
-        
-        inline void SetDetId(DetId detId)
-        {
-            _detId=detId;
-        }
+       
         
         virtual void   Initialize(G4HCofThisEvent* hitCollection);
         virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);

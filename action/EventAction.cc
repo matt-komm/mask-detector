@@ -20,8 +20,10 @@ EventAction::~EventAction()
 void EventAction::EndOfEventAction(const G4Event* event)
 {
     //G4UserEventAction::fpEventManager->KeepTheCurrentEvent();
-    
+    std::cout<<"end of event"<<std::endl;
+    std::cout<<"----------------"<<std::endl;
     G4HCofThisEvent* hitcollections = event->GetHCofThisEvent();
+    std::cout<<"hit collections: "<<hitcollections->GetNumberOfCollections()<<std::endl;
     for (G4int icollection = 0; icollection<hitcollections->GetNumberOfCollections(); ++icollection)
     {
         

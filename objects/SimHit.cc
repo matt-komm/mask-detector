@@ -12,9 +12,9 @@ G4Allocator<SimHit> SimHitAllocator;
 
 SimHit::SimHit():
     G4VHit(),
-    _trackId(-1)
+    _trackId(-1),
+    _detId(0)
 {
-    _detId.id=0;
 }
 
 
@@ -62,9 +62,9 @@ void SimHit::Draw()
 void SimHit::Print()
 {
   std::cout
-     << "  trackID: " << _trackId << " DetId.id " << _detId.id
-     << " Position: " << std::setw(7) << G4BestUnit(_pos,"Length")
-     << "localtime:" << G4BestUnit(_localTime,"Time")
+     << "  trackID: " << _trackId
+     << " Position: " << std::setw(4) << G4BestUnit(_pos,"Length")
+     << "localtime:" << std::setw(4) << G4BestUnit(_localTime,"Time")
      << std::endl;
 }
 

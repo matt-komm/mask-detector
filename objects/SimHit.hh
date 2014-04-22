@@ -16,7 +16,7 @@ class SimHit:
         G4int _trackId;
         G4double _energyDeposit;
         G4double _trackEnergy;
-        DetId _detId;
+        DetId* _detId;
         G4ThreeVector _pos;
         G4double _localTime;
         G4double _properTime;
@@ -51,7 +51,7 @@ class SimHit:
             return _trackEnergy;
         }
         
-        inline const DetId& GetDetId() const
+        inline const DetId* GetDetId() const
         { 
             return _detId; 
         }
@@ -106,7 +106,7 @@ class SimHit:
             _trackEnergy=trackEnergy;
         }
         
-        inline void SetDetId(DetId detId)
+        inline void SetDetId(DetId* detId)
         { 
             _detId = detId; 
         }

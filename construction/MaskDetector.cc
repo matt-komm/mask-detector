@@ -30,8 +30,8 @@ MaskDetector::MaskDetector():
     DefineMaterials();
     _tracker1VisAtt= new G4VisAttributes(G4Colour(1.0,1.0,0.0));
     _tracker2VisAtt= new G4VisAttributes(G4Colour(1.0,0.0,1.0));
-    _sensitiveDetector = new SensitiveDetector("Tracker","TrackerHitsCollection");
-    G4SDManager::GetSDMpointer()->AddNewDetector( _sensitiveDetector );
+
+    
 }
 
 MaskDetector::~MaskDetector()
@@ -52,9 +52,9 @@ void MaskDetector::DefineMaterials()
     _pixelMaterial  = nistManager->FindOrBuildMaterial("G4_Si", fromIsotopes);
     _absorberMaterial = nistManager->FindOrBuildMaterial("G4_Al", fromIsotopes);
     G4cout << *(G4Material::GetMaterialTable()) << G4endl;
-}
+}   
 
-G4LogicalVolume* MaskDetector::createStrip(G4double width, G4double length, G4double thickness, G4Material* material)
+G4LogicalVolume* MaskDetector::createStrip(G4double width, G4double length, G4double thickness, G4Material* material, SensitiveDetector* sd)
 {
     G4Box* box = new G4Box("stripSolid",0.5*width,0.5*thickness,0.5*length);
     G4LogicalVolume* logicalVolume = new G4LogicalVolume(
@@ -62,11 +62,12 @@ G4LogicalVolume* MaskDetector::createStrip(G4double width, G4double length, G4do
         material,   //its material
         "stripLV"   //its name
     ); 
-    logicalVolume->SetSensitiveDetector(_sensitiveDetector);
+    logicalVolume->SetSensitiveDetector(sd);
+    G4SDManager::GetSDMpointer()->AddNewDetector(sd);
     return logicalVolume;
 }
 
-G4LogicalVolume* MaskDetector::createTubs(G4double innerRadius, G4double outerRadius, G4double thickness, G4double angle, G4Material* material)
+G4LogicalVolume* MaskDetector::createTubs(G4double innerRadius, G4double outerRadius, G4double thickness, G4double angle, G4Material* material, SensitiveDetector* sd)
 {
     G4Tubs* tube = new G4Tubs("capSolid",innerRadius,outerRadius,0.5*thickness,0*deg,angle);
     G4LogicalVolume* logicalVolume = new G4LogicalVolume(
@@ -74,20 +75,22 @@ G4LogicalVolume* MaskDetector::createTubs(G4double innerRadius, G4double outerRa
         material,   //its material
         "capLV"   //its name
     ); 
-    logicalVolume->SetSensitiveDetector(_sensitiveDetector);
+    logicalVolume->SetSensitiveDetector(sd);
+    G4SDManager::GetSDMpointer()->AddNewDetector(sd);
     return logicalVolume;
 }
 
-void MaskDetector::createBarrel(G4Material* material, G4double radius, G4double length, G4int amount, G4double tilted, G4double thickness)
+void MaskDetector::createBarrel(unsigned int layer, G4Material* material, G4double radius, G4double length, unsigned int amount, G4double tilted, G4double thickness)
 {
     G4double width = std::sqrt(2*std::pow(radius,2)*(1-std::cos(360.0*deg/rad/amount+tilted/rad)));
     //width=100*mm;
-    for (int i = 0; i < amount; ++i)
+    for (unsigned int i = 0; i < amount; ++i)
     {
         G4double angleRad = 360.0*deg/rad/amount*i;
         G4double xpos = std::sin(angleRad)*(radius+thickness*0.5);
         G4double ypos = std::cos(angleRad)*(radius+thickness*0.5);
-        G4LogicalVolume* stripLV = createStrip(width,length, thickness, material);
+        SensitiveDetector* sd = new SensitiveDetector(DetId::barrelId(layer,i));
+        G4LogicalVolume* stripLV = createStrip(width,length, thickness, material,sd);
         if (i%2==0)
         {
             stripLV->SetVisAttributes(_tracker1VisAtt);
@@ -113,12 +116,13 @@ void MaskDetector::createBarrel(G4Material* material, G4double radius, G4double 
     }
 }
 
-void MaskDetector::createEndcap(G4Material* material, G4double innerRadius, G4double outerRadius, G4double spacing, G4int amount, G4double tilted, G4double thickness)
+void MaskDetector::createEndcap(unsigned int layer, G4Material* material, G4double innerRadius, G4double outerRadius, G4double spacing, unsigned int amount, G4double tilted, G4double thickness)
 {
-    for (int i = 0; i < amount; ++i)
+    for (unsigned int i = 0; i < amount; ++i)
     {
         G4double angleRad = 360.0*deg/rad/amount*i;
-        G4LogicalVolume* capLV = createTubs(innerRadius, outerRadius, thickness, 360*deg/rad/amount, material);
+        SensitiveDetector* sd = new SensitiveDetector(DetId::endcapId(layer,i));
+        G4LogicalVolume* capLV = createTubs(innerRadius, outerRadius, thickness, 360*deg/rad/amount, material,sd);
         if (i%2==0)
         {
             capLV->SetVisAttributes(_tracker1VisAtt);
@@ -174,9 +178,9 @@ G4VPhysicalVolume* MaskDetector::DefineVolumes()
         _checkOverlaps   // checking overlaps 
     );
     
-    for (int i = 0; i < 5; ++i)
+    for (unsigned int i = 0; i < 5; ++i)
     {
-        createBarrel(_pixelMaterial,25*cm+i*20*cm,1.0*m+i*0.2*m, 12, 0.0*deg);
+        createBarrel(i,_pixelMaterial,25*cm+i*20*cm,1.0*m+i*0.2*m, 12, 0.0*deg);
         
     }
     //createEndcap(_pixelMaterial, 25*cm, 65*cm, 1.2*m, 16, 10.0*deg);

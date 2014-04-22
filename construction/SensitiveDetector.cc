@@ -8,11 +8,12 @@
 #include <iostream>
 
 
-SensitiveDetector::SensitiveDetector(const G4String& name,const G4String& hitsCollectionName): 
-    G4VSensitiveDetector(name),
-    _hitsCollection(NULL)
+SensitiveDetector::SensitiveDetector(DetId* detId):
+    G4VSensitiveDetector(detId->GetDetName()),
+    _hitsCollection(NULL),
+    _detId(detId)
 {
-    collectionName.insert(hitsCollectionName);
+    collectionName.insert(detId->GetHitCollectionName());
 }
 
 SensitiveDetector::~SensitiveDetector() 
