@@ -41,13 +41,14 @@ G4bool SensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
     newHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
     newHit->SetEnergyDeposit(energyDeposit);
-    //std::cout<<"hit: "<<_hitsCollection->GetSize()<<std::endl;
-    //std::cout<<"   --> trackE="<<(aStep->GetTrack()->GetKineticEnergy ()-150*GeV)/MeV<<" MeV"<<std::endl;
-    //std::cout<<"   --> Edep="<<energyDeposit/MeV<<" MeV"<<std::endl;
     newHit->SetTrackEnergy(aStep->GetTrack()->GetKineticEnergy ());
-    //newHit->SetDetId(?)
-    //aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber());
-    newHit->SetPos(aStep->GetPostStepPoint()->GetPosition());
+    
+    G4StepPoint* stepPoint = aStep->GetPreStepPoint();
+    newHit->SetLocalTime(stepPoint->GetLocalTime());
+    newHit->SetProperTime(stepPoint->GetProperTime());
+    newHit->SetGlobalTime(stepPoint->GetGlobalTime());
+    newHit->SetDetId(_detId);
+    newHit->SetPos(stepPoint->GetPosition());
 
     _hitsCollection->insert( newHit );
 

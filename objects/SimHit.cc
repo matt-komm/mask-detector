@@ -61,9 +61,10 @@ void SimHit::Draw()
 
 void SimHit::Print()
 {
-  G4cout
+  std::cout
      << "  trackID: " << _trackId << " DetId.id " << _detId.id
      << " Position: " << std::setw(7) << G4BestUnit(_pos,"Length")
-     << G4endl;
+     << "localtime:" << G4BestUnit(_localTime,"Time")
+     << std::endl;
 }
 

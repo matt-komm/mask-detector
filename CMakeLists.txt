@@ -29,12 +29,13 @@ include_directories(${PROJECT_SOURCE_DIR}/construction)
 include_directories(${PROJECT_SOURCE_DIR}/action)
 include_directories(${PROJECT_SOURCE_DIR}/physics)
 include_directories(${PROJECT_SOURCE_DIR}/objects)
+include_directories(${PROJECT_SOURCE_DIR}/analysis)
 
 add_subdirectory(construction)
 add_subdirectory(physics)
 add_subdirectory(action)
 add_subdirectory(objects)
-
+add_subdirectory(analysis)
 
 add_executable(main
     main.cc

@@ -5,11 +5,8 @@
 #include "G4THitsCollection.hh"
 #include "G4Allocator.hh"
 #include "G4ThreeVector.hh"
+#include "DetId.hh"
 
-struct DetId
-{
-    G4int id;
-};
 
 
 class SimHit: 
@@ -21,6 +18,9 @@ class SimHit:
         G4double _trackEnergy;
         DetId _detId;
         G4ThreeVector _pos;
+        G4double _localTime;
+        G4double _properTime;
+        G4double _globalTime;
 
     public:
         SimHit();
@@ -56,9 +56,39 @@ class SimHit:
             return _detId; 
         }
         
+        inline G4double GetLocalTime() const
+        { 
+            return _localTime; 
+        }
+        
+        inline G4double GetProperTime() const
+        { 
+            return _properTime; 
+        }
+        
+        inline G4double GetGlobalTime() const
+        { 
+            return _globalTime; 
+        }
+        
         inline const G4ThreeVector& GetPosition() const 
         { 
             return _pos; 
+        }
+        
+        inline void SetLocalTime(G4double localTime)
+        {
+            _localTime=localTime;
+        }
+        
+        inline void SetProperTime(G4double properTime)
+        {
+            _properTime=properTime;
+        }
+        
+        inline void SetGlobalTime(G4double globalTime)
+        {
+            _globalTime=globalTime;
         }
 
         inline void SetTrackID(G4int trackId)

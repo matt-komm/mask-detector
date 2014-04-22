@@ -31,15 +31,15 @@ void EventAction::EndOfEventAction(const G4Event* event)
         std::cout<<"  ->    ->  sdname: "<<hitCollection->GetSDname()<<std::endl;
         std::cout<<"  ->    ->  hits: "<<hitCollection->GetSize()<<std::endl;
         
-        for (G4int ihit = 0; ihit<hitCollection->GetSize();++ihit)
+        for (unsigned int ihit = 0; ihit<hitCollection->GetSize();++ihit)
         {
             SimHit* hit = dynamic_cast<SimHit*>(hitCollection->GetHit(ihit));
             if (!hit)
             {
                 throw "casting simhit collection failed";
             }
-            const G4ThreeVector& pos = hit->GetPosition();
-            std::cout<<"  ->    ->   ->  ihit="<<ihit<<", x="<<pos.x()<<", y="<<pos.y()<<", z="<<pos.z()<<std::endl;
+            std::cout<<"  ->    ->   ->  ";
+            hit->Print();
         }
         
     } 
