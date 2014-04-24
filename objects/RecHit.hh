@@ -2,6 +2,7 @@
 #define RECHIT_H
 
 #include "G4ThreeVector.hh"
+#include "DetId.hh"
 
 class RecHit
 {
@@ -10,6 +11,7 @@ class RecHit
         DetId* _detId;
         G4double _time;
         G4ThreeVector _uncertainty;
+        G4int _simHitId;
     public:
         RecHit();
         inline const G4ThreeVector GetPosition() const
@@ -27,12 +29,40 @@ class RecHit
             return _time;
         }
         
-        inline G4ThreeVector GetUncertainty() const
+        inline const G4ThreeVector GetUncertainty() const
         {
             return _uncertainty;
         }
         
+        inline G4int GetSimHitId() const
+        {
+            return _simHitId;
+        }
         
+        inline void SetPosition(G4ThreeVector position) 
+        {
+            _pos = position;
+        }
+        
+        inline void SetDetId(DetId* detId) 
+        {
+            _detId = detId;
+        }
+        
+        inline void SetTime(G4double time) 
+        {
+            _time = time;
+        }
+        
+        inline void SetUncertainty(G4ThreeVector uncertainty)
+        {
+            _uncertainty = uncertainty;
+        }
+        
+        inline void SetSimHitId(G4int simHitId)
+        {
+            _simHitId = simHitId;
+        }
         
         ~RecHit();
 };
