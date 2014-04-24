@@ -4,5 +4,6 @@ add_library(analysis
     AnalysisChain.cc
     Module.cc
     ObjectStore.cc
+    demangle.cc
 )
-target_link_libraries(analysis objects)
+target_link_libraries(analysis)

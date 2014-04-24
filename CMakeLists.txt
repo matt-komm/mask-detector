@@ -44,8 +44,12 @@ COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/gui.mac ${CMAKE_CURRENT_BINARY_
 COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/init_vis.mac ${CMAKE_CURRENT_BINARY_DIR}/init_vis.mac)
 target_link_libraries(main 
     detector 
-    physics 
+    physics
+    objects
+    analysis 
     action 
+    
+    
     ${Geant4_LIBRARIES}
 )
 add_dependencies(main copy)

@@ -8,7 +8,7 @@ class Module
     protected:
     public:
         Module();
-        void process(ObjectStore& objStore);
+        virtual void Process(ObjectStore& objStore)=0;
         ~Module();
 };
 

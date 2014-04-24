@@ -35,11 +35,11 @@ class MaskDetector:
         G4VisAttributes* _tracker2VisAtt;
         
         
-        G4LogicalVolume* createStrip(G4double width, G4double length, G4double thickness, G4Material* material, SensitiveDetector* sd);
-        void createBarrel(unsigned int layer, G4Material* material, G4double radius=15*mm, G4double length=2*m, unsigned int amount=10, G4double tilted=0.0, G4double thickness=2*mm);
+        G4LogicalVolume* CreateStrip(G4double width, G4double length, G4double thickness, G4Material* material, SensitiveDetector* sd);
+        void CreateBarrel(unsigned int layer, G4Material* material, G4double radius=15*mm, G4double length=2*m, unsigned int amount=10, G4double tilted=0.0, G4double thickness=2*mm);
 
-        G4LogicalVolume* createTubs(G4double innerRadius, G4double outerRadius, G4double thickness, G4double angle, G4Material* material, SensitiveDetector* sd);
-        void createEndcap(unsigned int layer, G4Material* material, G4double innerRadius, G4double outerRadius, G4double spacing, unsigned int amount, G4double tilted, G4double thickness=2*mm);
+        G4LogicalVolume* CreateTubs(G4double innerRadius, G4double outerRadius, G4double thickness, G4double angle, G4Material* material, SensitiveDetector* sd);
+        void CreateEndcap(unsigned int layer, G4Material* material, G4double innerRadius, G4double outerRadius, G4double spacing, unsigned int amount, G4double tilted, G4double thickness=2*mm);
 
         void DefineMaterials();
         G4VPhysicalVolume* DefineVolumes();

@@ -4,3 +4,5 @@ add_library(action
     RunAction.cc
     EventAction.cc
 )
+
+target_link_libraries(action objects analysis)
