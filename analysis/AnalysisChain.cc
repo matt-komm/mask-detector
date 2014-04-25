@@ -25,6 +25,11 @@ void AnalysisChain::Run(ObjectStore& objectStore)
 
 AnalysisChain::~AnalysisChain()
 {
+    for (unsigned int imodule=0; imodule<_modules.size(); ++imodule)
+    {
+        delete _modules[imodule];
+    }
+    _modules.clear();
 }
 
 

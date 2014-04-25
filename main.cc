@@ -56,7 +56,7 @@ int main(int argc,char** argv)
     G4int idindex = G4int(random.fire(0,7.9));
     G4ThreeVector momentum(0.0,0.0,0.0);
     
-    momentum.setREtaPhi(energy*GeV,eta,phi);
+    momentum.setREtaPhi(energy*GeV,eta,phi*rad);
     
     gen_action->addParticle(ids[idindex],momentum);
   }

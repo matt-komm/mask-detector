@@ -9,7 +9,7 @@ class Module
     public:
         Module();
         virtual void Process(ObjectStore& objStore)=0;
-        ~Module();
+        virtual ~Module();
 };
 
 #endif
