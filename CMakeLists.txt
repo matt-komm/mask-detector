@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 project(detector)
 
+# Load some basic macros which are needed later on
+#include(FindROOT.cmake)
+
 add_custom_target(copy)
 
 MACRO(COPY_FILE_IF_CHANGED in_file out_file)  

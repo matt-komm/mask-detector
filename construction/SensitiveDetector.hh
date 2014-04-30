@@ -6,6 +6,7 @@
 #include "DetId.hh"
 
 #include "SimHit.hh"
+#include "RecHit.hh"
 
 #include <vector>
 
@@ -17,6 +18,7 @@ class SensitiveDetector:
 {
     private:
         SimHitCollection* _hitsCollection;
+        RecHitCollection* _hitsRecCollection;
         DetId* _detId;
     public:
         SensitiveDetector(DetId* detId);
