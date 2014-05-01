@@ -13,7 +13,13 @@ G4Allocator<SimHit> SimHitAllocator;
 SimHit::SimHit():
     G4VHit(),
     _trackId(-1),
-    _detId(0)
+    _energyDeposit(0),
+    _trackEnergy(0),
+    _detId(0),
+    _pos(0,0,0),
+    _localTime(0),
+    _properTime(0),
+    _globalTime(0)
 {
 }
 
@@ -35,6 +41,11 @@ const SimHit& SimHit::operator=(const SimHit& simHit)
     _trackId = simHit._trackId;
     _detId = simHit._detId;
     _pos = simHit._pos;
+    _energyDeposit = simHit._energyDeposit;
+    _trackEnergy = simHit._trackEnergy;
+    _localTime = simHit._localTime;
+    _properTime = simHit._properTime;
+    _globalTime = simHit._globalTime;
     return *this;
 }
 

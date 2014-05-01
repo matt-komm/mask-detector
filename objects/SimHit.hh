@@ -111,7 +111,7 @@ class SimHit:
             _detId = detId; 
         }
         
-        inline void SetPos(G4ThreeVector pos)
+        inline void SetPosition(G4ThreeVector pos)
         { 
             _pos = pos; 
         }
