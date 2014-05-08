@@ -23,9 +23,9 @@ class SampleModule:
     public:
         SampleModule()
         {
-            _histEtaPhi=new TH2F("hist","simhits;#eta;#phi",100,-2.5,2.5,100,-3.1415,3.1415);
-            _histRPhi=new TH2F("hist","simhits;x;y",100,-1.5,1.5,100,-1.5,1.5);
-            _histEtaZ=new TH2F("hist","simhits;z;r",100,-1.5,1.5,100,0,1.5);
+            _histEtaPhi=new TH2F("histetaphi","simhits;#eta;#phi",100,-2.5,2.5,100,-3.1415,3.1415);
+            _histRPhi=new TH2F("histxy","simhits;x;y",100,-1.5,1.5,100,-1.5,1.5);
+            _histEtaZ=new TH2F("histetaz","simhits;z;r",100,-1.5,1.5,100,0,1.5);
         }
         
         virtual void Process(ObjectStore& objStore)

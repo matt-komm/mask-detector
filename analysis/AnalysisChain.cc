@@ -4,10 +4,12 @@
 #include "Module.hh"
 
 #include "SampleModule.hh"
+#include "ConformalMap.hh"
 
 AnalysisChain::AnalysisChain()
 {
     this->AddModule(new SampleModule());
+    this->AddModule(new ConformalMap());
 }
 
 void AnalysisChain::AddModule(Module* module)

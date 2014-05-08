@@ -178,9 +178,9 @@ G4VPhysicalVolume* MaskDetector::DefineVolumes()
         _checkOverlaps   // checking overlaps 
     );
     
-    for (unsigned int i = 0; i < 5; ++i)
+    for (unsigned int i = 0; i < 8; ++i)
     {
-        CreateBarrel(i,_pixelMaterial,25*cm+i*20*cm,1.0*m+i*0.2*m, 12, 0.0*deg);
+        CreateBarrel(i,_pixelMaterial,25*cm+i*10*cm,1.0*m+i*0.2*m, 12, 0.0*deg);
         
     }
     //createEndcap(_pixelMaterial, 25*cm, 65*cm, 1.2*m, 16, 10.0*deg);
