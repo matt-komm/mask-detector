@@ -5,11 +5,13 @@
 
 #include "SampleModule.hh"
 #include "ConformalMap.hh"
+#include "Seeding.hh"
 
 AnalysisChain::AnalysisChain()
 {
     this->AddModule(new SampleModule());
     this->AddModule(new ConformalMap());
+    this->AddModule(new Seeding());
 }
 
 void AnalysisChain::AddModule(Module* module)

@@ -8,19 +8,23 @@
 #include "RecHit.hh"
 
 #include "ObjectStore.hh"
-#include "AnalysisChain.hh"
+
 #include <iostream>
 
 EventAction::EventAction():
     G4UserEventAction()
 {
-    //
+
 }
 
 EventAction::~EventAction()
 {
 }
 
+void EventAction::BeginOfEventAction(const G4Event *anEvent)
+{
+
+}
 void EventAction::EndOfEventAction(const G4Event* event)
 {
     //G4UserEventAction::fpEventManager->KeepTheCurrentEvent();
@@ -53,10 +57,10 @@ void EventAction::EndOfEventAction(const G4Event* event)
     }
     try
     {
-        AnalysisChain chain;
+        
         ObjectStore objStore;
         objStore.Put<SimHit>("simhits",simhits);
-        chain.Run(objStore);
+        _chain.Run(objStore);
     }
     catch (std::string s)
     {

@@ -21,6 +21,16 @@ class DetId
         {
         }
         
+        inline unsigned int layer() const
+        {
+            return _layer;
+        }
+        
+        inline unsigned int subid() const
+        {
+            return _subid;
+        }
+        
         
         static DetId* barrelId(unsigned int layer, unsigned int subid)
         {
