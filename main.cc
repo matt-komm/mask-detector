@@ -66,7 +66,7 @@ int main(int argc,char** argv)
   UImanager->ApplyCommand("/control/execute init_vis.mac");
   #endif
   
-  G4int numberOfEvent = 1;
+  G4int numberOfEvent = 10;
   runManager->BeamOn(numberOfEvent);
   
   #ifdef WITH_GEANT4_UIVIS
