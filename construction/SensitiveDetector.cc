@@ -34,7 +34,7 @@ void SensitiveDetector::Initialize(G4HCofThisEvent* hce)
 G4bool SensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 {  
     G4double energyDeposit = aStep->GetTotalEnergyDeposit();
-    if (energyDeposit==0.) 
+    if (energyDeposit==0) 
     {
         return false;
     }

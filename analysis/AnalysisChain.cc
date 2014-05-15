@@ -6,12 +6,14 @@
 #include "SampleModule.hh"
 #include "ConformalMap.hh"
 #include "Seeding.hh"
+#include "EnergyDeposit.hh"
 
 AnalysisChain::AnalysisChain()
 {
     this->AddModule(new SampleModule());
     this->AddModule(new ConformalMap());
     this->AddModule(new Seeding());
+    this->AddModule(new EnergyDeposit());
 }
 
 void AnalysisChain::AddModule(Module* module)

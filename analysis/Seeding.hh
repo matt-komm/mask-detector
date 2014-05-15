@@ -27,16 +27,21 @@ public Module
     public:
         Seeding()
         {
-            histSameTrack = new TH1F("histSameTrack",";dxy/mm;",50,0,500);
-            histOpTrack = new TH1F("histOpTrack",";dxy/mm;",50,0,500);
+            histSameTrack = new TH1F("histSameTrack",";dxy/mm;",20,0,500);
+            histOpTrack = new TH1F("histOpTrack",";dxy/mm;",20,0,500);
         }
         
         double Get2DImpactParameter(G4ThreeVector linePropagator, G4ThreeVector pos)
         {
-            double a = linePropagator.x()/mm;
-            double b = linePropagator.y()/mm;
-            double x = pos.x()/mm;
-            double y = pos.y()/mm;
+            double a = linePropagator.rho()/mm*cos(linePropagator.phi()/rad);
+            double b = linePropagator.rho()/mm*sin(linePropagator.phi()/rad);
+            double x = pos.rho()/mm*cos(pos.phi()/rad);
+            double y = pos.rho()/mm*sin(pos.phi()/rad);
+            double propagation = -0.5*(x*b+y*a)/(a*b);
+            if (propagation>0)
+            {
+                return 499;
+            }
             return 0.5*(a*y-b*x)/(a*b)*sqrt(a*a+b*b);
         }
         
@@ -52,7 +57,7 @@ public Module
                 {
                     if (simhits[ihit2]->GetDetId()->layer()!=1) continue;
                     const SimHit* hit2 = simhits[ihit2];
-                    G4ThreeVector linePropagator = hit1->GetPosition()-hit2->GetPosition();
+                    G4ThreeVector linePropagator = hit2->GetPosition()-hit1->GetPosition();
                     double dxy = Get2DImpactParameter(linePropagator,hit1->GetPosition());
                     if (hit1->GetTrackID()==hit2->GetTrackID())
                     {

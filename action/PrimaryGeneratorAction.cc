@@ -45,7 +45,7 @@ void PrimaryGeneratorAction::clear()
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
     clear();
-    G4int ids[8] = {2122,-2122,211,-211,11,-11,13,-13};
+    G4int ids[8] = {2122,-2122,11,-11,13,-13};
 
     std::cout<<"new event"<<std::endl;
     for (int i = 0; i<10; ++i)
