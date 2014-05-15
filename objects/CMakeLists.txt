@@ -3,4 +3,5 @@ add_library(objects
     SimHit.cc
     RecHit.cc
     Cluster.cc
+    Topology.cc
 )
